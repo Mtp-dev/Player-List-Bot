@@ -45,7 +45,8 @@ async def fetch_players():
 @tasks.loop(seconds=20)  # Update every 20 seconds
 async def update_status():
     total_players = await fetch_player_counts()
-    activity = discord.Game(f"{total_players} players online")
+    # Update bot's status to "WATCHING X online"
+    activity = discord.Activity(type=discord.ActivityType.watching, name=f"{total_players} online!")
     await bot.change_presence(status=discord.Status.online, activity=activity)
 
 @bot.event
@@ -67,5 +68,5 @@ async def list_players(ctx: SlashContext):
     
     await ctx.send(embed=embed)
 
-# Run the bot
+# Run the bot with your token
 bot.run('your-bot-token')
